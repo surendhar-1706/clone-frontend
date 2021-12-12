@@ -1,10 +1,8 @@
+import { getDataAll, getDatabyId } from "../../components/FetchServer/GetData";
 import PostDetail from "../../components/PostDetail";
-export const getStaticPaths = async () => {
-  const fetched_data = await fetch(
-    process.env.NEXT_PUBLIC_API_URL + "/api/post/all"
-  );
-  const json_data = await fetched_data.json();
 
+export const getStaticPaths = async () => {
+  const json_data = await getDataAll();
   const paths = json_data.map((post) => ({
     params: { postid: post.id.toString() },
   }));
@@ -16,10 +14,7 @@ export const getStaticPaths = async () => {
 };
 export const getStaticProps = async (context) => {
   const id = context.params.postid;
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_API_URL + "/api/post/data/" + id
-  );
-  const data = await res.json();
+  const data = await getDatabyId({ id: id });
   return {
     props: { post: data },
   };
