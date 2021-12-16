@@ -6,7 +6,6 @@ export const getStaticPaths = async () => {
   const paths = json_data.map((post) => ({
     params: { postid: post.id.toString() },
   }));
-
   return {
     paths,
     fallback: false,
