@@ -1,4 +1,4 @@
-import { getDataAll, getDatabyId } from "../../components/FetchServer/GetData";
+import { getDataAll, getDatabyId } from "../../components/fetchdata";
 import PostDetail from "../../components/PostDetail";
 
 export const getStaticPaths = async () => {
