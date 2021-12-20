@@ -13,13 +13,22 @@ function ChatIndividual() {
   const [start_client, set_start_client] = useState(false);
   const [room_name, set_room_name] = useState();
   var other_user_id = router.query.id;
+  // const client = start_client
+  //   ? new w3cwebsocket(
+  //       "ws://" +
+  //         process.env.NEXT_PUBLIC_CHAT_URL +
+  //         "/ws/chat/" +
+  //         room_name +
+  //         "/"
+  //     )
+  //   : null;
+  // {
+  //   start_client &&
+  //     console.log("client socket called-----------------------------------");
+  // }
   const client = start_client
     ? new w3cwebsocket(
-        "ws://" +
-          process.env.NEXT_PUBLIC_CHAT_URL +
-          "/ws/chat/" +
-          room_name +
-          "/"
+        "ws://" + "127.0.0.1:8000" + "/ws/chat/" + room_name + "/"
       )
     : null;
   {
@@ -46,8 +55,21 @@ function ChatIndividual() {
         my_id > other_user_id
           ? "chat_" + other_user_id + "_" + my_id
           : "chat_" + my_id + "_" + other_user_id;
+      // const fetched_data = await fetch(
+      //   process.env.NEXT_PUBLIC_API_URL +
+      //     "/chat/api/last_ten/" +
+      //     msg_fetch_room_name +
+      //     "/",
+      //   {
+      //     headers: {
+      //       Authorization: "JWT " + localStorage.getItem("access_token"),
+      //       "Content-Type": "application/json",
+      //       accept: "application/json",
+      //     },
+      //   }
+      // );
       const fetched_data = await fetch(
-        process.env.NEXT_PUBLIC_API_URL +
+        "http://127.0.0.1:8000" +
           "/chat/api/last_ten/" +
           msg_fetch_room_name +
           "/",
@@ -59,7 +81,6 @@ function ChatIndividual() {
           },
         }
       );
-
       const json_data = await fetched_data.json();
       const results = json_data.results.reverse();
       setdata(json_data);
