@@ -141,7 +141,6 @@ function SearchResult({ data }) {
             setbuttonloading(false);
 
             if (nextpage) {
-              // const { data, error } = useSWR(nextpage, fetcher);
               // console.log(nextpage, "daata", data);
               const fetched_data = await fetch(nextpage);
               const json_data = await fetched_data.json();

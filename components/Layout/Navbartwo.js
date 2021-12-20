@@ -60,7 +60,11 @@ function Navbartwo() {
           <div className="">Reports</div>
         </div>
         <div className="hover:text-green-400">
-          <span>Messages</span>
+          <span>
+            <Link href="/chat">
+              <a>Messages</a>
+            </Link>
+          </span>
           <div className=""> {picdetail && <CreateJob />}</div>
         </div>
         <div className="hover:text-green-400"></div>
