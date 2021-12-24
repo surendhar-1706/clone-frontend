@@ -108,7 +108,7 @@ function ChatIndividual() {
           data.results.map((message) => {
             return (
               <div className="flex items-center " key={message.id}>
-                <div>{message.name}</div>
+                <div>[{message.name}] </div>
                 <div>{message.content}</div>
               </div>
             );

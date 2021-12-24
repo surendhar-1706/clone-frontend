@@ -45,6 +45,7 @@ function Messagehome() {
   };
   const { isLoading, error, data } = useQuery("chatrooms", fetchrooms, {
     enabled: tokenexsists,
+    staleTime: 1000,
   });
 
   useEffect(() => {
@@ -56,12 +57,12 @@ function Messagehome() {
   console.log(data);
   if (error) return <h1>its is an error</h1>;
   return (
-    <div>
+    <div className="space-y-5">
       {isLoading && <div>Data is Loading</div>}
       {data &&
         data.map((data) => {
           return (
-            <div key={data.room_name}>
+            <div className="border p-5 shadow-inner" key={data.room_name}>
               <div>
                 room_name:{data.room_name}
                 <button
@@ -78,8 +79,8 @@ function Messagehome() {
             </div>
           );
         })}
-      chat page
-      <button onClick={fetchrooms}>fetch</button>
+      {/* chat page
+      <button onClick={fetchrooms}>fetch</button> */}
     </div>
   );
 }

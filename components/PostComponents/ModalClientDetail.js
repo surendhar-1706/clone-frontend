@@ -12,7 +12,7 @@ function ModalClientDetail() {
   const router = useRouter();
 
   const { data, error } = useSWR(
-    process.env.NEXT_PUBLIC_API_URL + "/api/post/data" + router.query.postid,
+    process.env.NEXT_PUBLIC_API_URL + "/api/post/data/" + router.query.postid,
     fetcher,
     { dedupingInterval: 300000 }
   );
