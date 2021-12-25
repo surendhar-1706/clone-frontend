@@ -2,16 +2,18 @@ import "../styles/globals.css";
 import AuthContextProvider from "../context/AuthContext";
 import ModalContext from "../context/ModalContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 function MyApp({ Component, pageProps, router }) {
   const queryClient = new QueryClient();
   return (
-    <AuthContextProvider>
-      <ModalContext>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AuthContextProvider>
+        <ModalContext>
           <Component {...pageProps} key={router.key} />
-        </QueryClientProvider>
-      </ModalContext>
-    </AuthContextProvider>
+        </ModalContext>
+      </AuthContextProvider>
+      <ReactQueryDevtools initialisOpen={false} position="bottom-right" />
+    </QueryClientProvider>
   );
 }
 

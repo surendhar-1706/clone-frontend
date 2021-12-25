@@ -63,7 +63,6 @@ function ThirdModal({ children, modalstate, setmodalstate }) {
                     dispatch({
                       type: "setclose",
                     });
-                    // router.push("/post", undefined, { shallow: true });
                     router.back();
                   }}
                 >

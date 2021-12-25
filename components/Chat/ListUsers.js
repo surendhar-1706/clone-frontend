@@ -12,6 +12,7 @@ import { TiContacts } from "react-icons/ti";
 import { BsSearch } from "react-icons/bs";
 import { AiFillCaretDown } from "react-icons/ai";
 import { useRouter } from "next/router";
+import Link from "next/link";
 function ListUsers() {
   const router = useRouter();
   const [token, set_token] = useState();
@@ -53,7 +54,6 @@ function ListUsers() {
   };
   const { isLoading, error, data } = useQuery("chatrooms", fetchrooms, {
     enabled: tokenexsists,
-    staleTime: 1000,
   });
 
   useEffect(() => {
@@ -65,7 +65,7 @@ function ListUsers() {
   console.log(data);
   if (error) return <h1>its is an error</h1>;
   return (
-    <div className=" border space-y-5 overflow-y-auto ">
+    <div className=" border space-y-5 min-h-full">
       <div className="flex space-x-8 items-center justify-center py-4 bg-gray-50 border border-b">
         <div className="border rounded-full p-1">
           {" "}
@@ -102,38 +102,46 @@ function ListUsers() {
       </div>
       {/* <IoSettingsOutline /> */}
       {isLoading && <div>Data is Loading</div>}
-      {data &&
-        data.map((data) => {
-          return (
-            <div
-              className="px-4 py-4 flex items-center group gap-3 border-b-2"
-              key={data.room_name}
-            >
-              <div className="bg-gray-200 p-3 rounded-full text-gray-600">
-                <FaUserTie />
-              </div>
-              <div>
-                <div className="group-hover:text-upworkgreen-light">
-                  {" "}
-                  {data.room_name}
+      <div className="">
+        {data &&
+          data.map((data) => {
+            return (
+              <div
+                className="px-4 py-4 flex items-center group gap-3 border-b-2"
+                key={data.room_name}
+              >
+                <div className="bg-gray-200 p-3 rounded-full text-gray-600">
+                  <FaUserTie />
                 </div>
-                <button
-                  onClick={() => {
-                    router.push("/chat/testchat/32", undefined, {
-                      shallow: true,
-                    });
-                  }}
-                >
-                  Message
-                </button>
-              </div>
-              {/* <div>user_id_1:{data.user_id_1}</div>
+                <div>
+                  {" "}
+                  <div className="group-hover:text-upworkgreen-light">
+                    {/* <Link
+                    scroll={false}
+                    href={`/chat/testchat/[id]?id=${data.user_id_2}`}
+                    as={`/chat/testchat/${data.user_id_2}`}
+                  >
+                    <a>{data.room_name}</a>
+                  </Link>{" "} */}
+                    {data.room_name}
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      console.log("printing user_id_2", data.user_id_2);
+                      router.push(`/chat/testchat/${data.user_id_2}`);
+                    }}
+                  >
+                    Message
+                  </button>
+                </div>
+                {/* <div>user_id_1:{data.user_id_1}</div>
               <div>user_id_2:{data.user_id_2}</div> */}
 
-              <hr />
-            </div>
-          );
-        })}
+                <hr />
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 }
