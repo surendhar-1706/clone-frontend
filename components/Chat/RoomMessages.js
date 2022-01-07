@@ -4,7 +4,8 @@ import { useQuery, useQueryClient } from "react-query";
 import { w3cwebsocket } from "websocket";
 import { Formik } from "formik";
 import { useRouter } from "next/router";
-
+import Avatar from "react-avatar";
+import { IoSend } from "react-icons/io5";
 function RoomMessages({ room_name }) {
   const [token, set_token] = useState();
   const [tokenexsists, set_tokenexsists] = useState(false);
@@ -64,13 +65,6 @@ function RoomMessages({ room_name }) {
 
         if (dataFromServer) {
           // setmessages((messages) => [...messages, dataFromServer.message]);
-          // console.log("rom_name----", room_name);
-          // const data = queryClient.setQueryData(
-          //   "room_messages_" + room_name,
-          //   (olddata) => {
-          //     console.log("printing data from server", olddata);
-          //   }
-          // );
           var full_name = "room_messages_" + room_name;
           await queryClient.refetchQueries([full_name], { active: true });
         }
@@ -79,6 +73,7 @@ function RoomMessages({ room_name }) {
   }, [room_name]);
   return (
     <div>
+      {isLoading && <div>Loading</div>}
       RoomMessages
       {room_name}
       <div>
@@ -86,15 +81,25 @@ function RoomMessages({ room_name }) {
           data.map((message) => {
             return (
               <div className="flex items-center " key={message.id}>
-                <div>[{message.name}] </div>
+                <Avatar
+                  color={Avatar.getRandomColor("sitebase", [
+                    "red",
+                    "green",
+                    "blue",
+                  ])}
+                  name={message.name}
+                  size="40"
+                  round={true}
+                />
+                <div className="">[{message.name}] </div>
                 <div>{message.content}</div>
               </div>
             );
           })}
-        {messages &&
+        {/* {messages &&
           messages.map((message) => {
             return <div key={message.id}>{message}</div>;
-          })}
+          })} */}
       </div>
       <div>
         <Formik
@@ -117,17 +122,27 @@ function RoomMessages({ room_name }) {
         >
           {(props) => (
             <form onSubmit={props.handleSubmit}>
-              <input
-                type="text"
-                onChange={props.handleChange}
-                onBlur={props.handleBlur}
-                value={props.values.message}
-                name="message"
-              />
-              {props.errors.message && (
-                <div id="feedback">{props.errors.message}</div>
-              )}
-              <button type="submit">Submit</button>
+              <div className="flex items-center border">
+                <textarea
+                  type="text"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.message}
+                  name="message"
+                  className="outline-none w-full resize-none rounded-md h-10 py-0.5"
+                  // cols={100}
+                  rows={1}
+                />
+                {props.errors.message && (
+                  <div id="feedback">{props.errors.message}</div>
+                )}
+                <button
+                  className=" px-2 py-2 bg-gray-50 text-upworkgreen-light rounded-full"
+                  type="submit"
+                >
+                  <IoSend size={30} />
+                </button>
+              </div>
             </form>
           )}
         </Formik>
