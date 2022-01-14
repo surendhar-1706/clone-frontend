@@ -31,14 +31,25 @@ function Messagehome() {
   };
   const fetchrooms = async () => {
     // console.log("from fetchrooms", token);
-    const res = await fetch("http://127.0.0.1:8000/chat/api/all_room_names", {
-      method: "get",
-      headers: {
-        Authorization: "JWT " + token,
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-    });
+    // const res = await fetch("http://127.0.0.1:8000/chat/api/all_room_names", {
+    //   method: "get",
+    //   headers: {
+    //     Authorization: "JWT " + token,
+    //     "Content-Type": "application/json",
+    //     accept: "application/json",
+    //   },
+    // });
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + "/chat/api/all_room_names",
+      {
+        method: "get",
+        headers: {
+          Authorization: "JWT " + token,
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+      }
+    );
     const json_data = await res.json();
     console.log(json_data);
     return json_data;

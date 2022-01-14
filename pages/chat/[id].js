@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import Layouttwo from "../../components/Layout/Layouttwo";
 import { AuthContext } from "../../context/AuthContext";
 import { useRouter } from "next/router";
+import uniqid from "uniqid";
 function ChatIndividual() {
   const { authstate, dispatch } = useContext(AuthContext);
   const router = useRouter();
@@ -13,28 +14,28 @@ function ChatIndividual() {
   const [start_client, set_start_client] = useState(false);
   const [room_name, set_room_name] = useState();
   var other_user_id = router.query.id;
-  // const client = start_client
-  //   ? new w3cwebsocket(
-  //       "ws://" +
-  //         process.env.NEXT_PUBLIC_CHAT_URL +
-  //         "/ws/chat/" +
-  //         room_name +
-  //         "/"
-  //     )
-  //   : null;
-  // {
-  //   start_client &&
-  //     console.log("client socket called-----------------------------------");
-  // }
   const client = start_client
     ? new w3cwebsocket(
-        "ws://" + "127.0.0.1:8000" + "/ws/chat/" + room_name + "/"
+        "ws://" +
+          process.env.NEXT_PUBLIC_CHAT_URL +
+          "/ws/chat/" +
+          room_name +
+          "/"
       )
     : null;
   {
     start_client &&
       console.log("client socket called-----------------------------------");
   }
+  // const client = start_client
+  //   ? new w3cwebsocket(
+  //       "ws://" + "127.0.0.1:8000" + "/ws/chat/" + room_name + "/"
+  //     )
+  //   : null;
+  // {
+  //   start_client &&
+  //     console.log("client socket called-----------------------------------");
+  // }
   console.log(router.isReady, "router ready");
   useEffect(async () => {
     if (!router.isReady) return;
@@ -55,21 +56,8 @@ function ChatIndividual() {
         my_id > other_user_id
           ? "chat_" + other_user_id + "_" + my_id
           : "chat_" + my_id + "_" + other_user_id;
-      // const fetched_data = await fetch(
-      //   process.env.NEXT_PUBLIC_API_URL +
-      //     "/chat/api/last_ten/" +
-      //     msg_fetch_room_name +
-      //     "/",
-      //   {
-      //     headers: {
-      //       Authorization: "JWT " + localStorage.getItem("access_token"),
-      //       "Content-Type": "application/json",
-      //       accept: "application/json",
-      //     },
-      //   }
-      // );
       const fetched_data = await fetch(
-        "http://127.0.0.1:8000" +
+        process.env.NEXT_PUBLIC_API_URL +
           "/chat/api/last_ten/" +
           msg_fetch_room_name +
           "/",
@@ -81,6 +69,19 @@ function ChatIndividual() {
           },
         }
       );
+      // const fetched_data = await fetch(
+      //   "http://127.0.0.1:8000" +
+      //     "/chat/api/last_ten/" +
+      //     msg_fetch_room_name +
+      //     "/",
+      //   {
+      //     headers: {
+      //       Authorization: "JWT " + localStorage.getItem("access_token"),
+      //       "Content-Type": "application/json",
+      //       accept: "application/json",
+      //     },
+      //   }
+      // );
       const json_data = await fetched_data.json();
       const results = json_data.results.reverse();
       setdata(json_data);
@@ -115,7 +116,8 @@ function ChatIndividual() {
           })}
         {messages &&
           messages.map((message) => {
-            return <div key={message.id}>{message}</div>;
+            let id = uniqid();
+            return <div key={id}>{message}</div>;
           })}
 
         <Formik
