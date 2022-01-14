@@ -21,7 +21,7 @@ function RoomMessages({ room_name }) {
         "ws://" + "127.0.0.1:8000" + "/ws/chat/" + room_name + "/"
       )
     : null;
-  console.log(client, "priting client from roomessages");
+  // console.log(client, "priting client from roomessages");
   const fetch_messages = async () => {
     const res = await fetch(
       "http://127.0.0.1:8000" + "/chat/api/last_ten/" + room_name + "/",
@@ -64,9 +64,9 @@ function RoomMessages({ room_name }) {
         console.log("got reply! ", dataFromServer);
 
         if (dataFromServer) {
-          // setmessages((messages) => [...messages, dataFromServer.message]);
+          setmessages((messages) => [...messages, dataFromServer.message]);
           var full_name = "room_messages_" + room_name;
-          await queryClient.refetchQueries([full_name], { active: true });
+          // await queryClient.refetchQueries([full_name], { active: true });
         }
       };
     }
@@ -96,10 +96,10 @@ function RoomMessages({ room_name }) {
               </div>
             );
           })}
-        {/* {messages &&
+        {messages &&
           messages.map((message) => {
             return <div key={message.id}>{message}</div>;
-          })} */}
+          })}
       </div>
       <div>
         <Formik
